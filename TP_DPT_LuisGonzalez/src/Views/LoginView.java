@@ -15,8 +15,8 @@ public class LoginView {
 
     public void loginView() throws FileNotFoundException {
         Scanner input = new Scanner(System.in);
-        int escolha;
 
+        int escolha;
         do {
             System.out.printf(Tools.color.YELLOW + """
                             
@@ -33,10 +33,10 @@ public class LoginView {
             switch (escolha) {
                 case 1:
                     ClientView clientView = new ClientView();
-//                    clientView.clientMenu();
+                    clientView.clientMenu();
                     break;
 
-                case 2, 3:
+                case 2:
 
                     System.out.println(Tools.color.YELLOW + "\nFaça log-in com as suas credenciais\n"
                             + Tools.color.RESET);
@@ -57,7 +57,7 @@ public class LoginView {
         } while (escolha != 0);
     }
 
-    private void loginValidation(String username, String password) {
+    private void loginValidation(String username, String password) throws FileNotFoundException {
         String userType = loginController.loginFunction(username, password);
 
         switch (userType) {
@@ -67,8 +67,8 @@ public class LoginView {
                 break;
 
             case "ENG":
-//                EngView engView = new EngView();
-//                engView.engMenu();
+                EngView engView = new EngView();
+                engView.engMenu();
                 break;
 
             case "ERROR":
