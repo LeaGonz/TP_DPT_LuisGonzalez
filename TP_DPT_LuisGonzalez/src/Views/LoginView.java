@@ -62,8 +62,8 @@ public class LoginView {
 
         switch (userType) {
             case "ADMIN":
-//                AdminView adminView = new AdminView();
-//                adminView.adminMenu();
+                AdminView adminView = new AdminView();
+                adminView.adminMenu();
                 break;
 
             case "ENG":

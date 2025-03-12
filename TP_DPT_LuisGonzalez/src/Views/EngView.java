@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class EngView {
     EngController engController;
 
-    public EngView() {
+    public EngView() throws FileNotFoundException {
         this.engController = new EngController();
     }
 
@@ -20,7 +20,7 @@ public class EngView {
         do {
             System.out.printf(Tools.color.YELLOW + """
                             
-                            🎢 Menu Engenheiro de Manutenção - Parque Temático CESAELand © 🎡
+                            🎢 Menu Engenheiro de Manutenção - Parque Temático CESAELand © 🛠️
                             
                             %s1-%s Consultar Próximas Revisões
                             %s2-%s Consultar Histórico de Revisões
