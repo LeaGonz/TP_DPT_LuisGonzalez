@@ -59,7 +59,7 @@ public class EngController {
                 int valor1 = Integer.parseInt(revisoes.get(j).get(2));
                 int valor2 = Integer.parseInt(revisoes.get(j + 1).get(2));
 
-                if (valor1 < valor2) {
+                if (valor1 > valor2) {
                     ArrayList<String> temp = revisoes.get(j);
                     revisoes.set(j, revisoes.get(j + 1));
                     revisoes.set(j + 1, temp);
