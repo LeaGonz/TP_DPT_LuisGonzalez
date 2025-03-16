@@ -12,7 +12,7 @@ public class LoginController {
      * Criamos o repositório com a data vinda do modelo
      */
     public LoginController() throws FileNotFoundException {
-        this.loginRepository = new LoginRepository();
+        this.loginRepository = LoginRepository.getInstance();
     }
 
     /**

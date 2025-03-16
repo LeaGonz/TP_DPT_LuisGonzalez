@@ -9,6 +9,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static java.lang.Thread.sleep;
+
 public class ClientView {
     ClientController clientController;
 
@@ -16,9 +18,7 @@ public class ClientView {
         this.clientController = new ClientController();
     }
 
-    public void clientMenu() throws FileNotFoundException {
-        //Scanner input = new Scanner(System.in);
-
+    public void clientMenu() throws InterruptedException {
         int escolha;
         do {
             System.out.printf(Tools.color.YELLOW + """
@@ -29,21 +29,23 @@ public class ClientView {
                             %s2-%s Consultar Atrações Favoritas
                             
                             """,
-                    Tools.color.GREEN, Tools.color.RESET,
+                    Tools.color.GREEN, Tools.color.YELLOW,
                     Tools.color.GREEN, Tools.color.RESET);
 
             escolha = Tools.numValidation(0, 2);
 
             switch (escolha) {
                 case 1:
-                    this.atracoesDisponiveis();
+                    atracoesDisponiveis();
                     break;
                 case 2:
-                    // IMPLEMENTAR?
+                    System.out.println("\nAqui deveria estar as Atrações Favoritas, mas não estão... 🤖");
+                    sleep(300);
                     break;
 
                 case 0:
                     System.out.println("\nTe vas directo al menu anterior compadre... 🔙");
+                    sleep(300);
                     break;
             }
         } while (escolha != 0);
@@ -52,7 +54,7 @@ public class ClientView {
     /**
      * Função para mostrar as atrações disponíveis no formato de tabela
      */
-    public void atracoesDisponiveis() {
+    public void atracoesDisponiveis() throws InterruptedException {
         System.out.println(Tools.color.YELLOW + "\n🎢 Atrações Disponíveis - Parque Temático CESAELand © 🎡\n" + Tools.color.RESET);
         System.out.printf(Tools.color.GREEN + "%-40s | %16s | %16s | %20s%n" + Tools.color.RESET, "ATRAÇÃO", "PREÇO ADULTO", "PREÇO CRIANÇA", "DURAÇÃO (min:seg)");
 
@@ -64,6 +66,7 @@ public class ClientView {
                     atracao.getPrecoAdulto(),
                     atracao.getPrecoCrianca(),
                     clientController.segToMinSeg(atracao.getDuracaoSeg()));
+            sleep(200);
         }
     }
 }

@@ -9,8 +9,11 @@ import java.util.ArrayList;
 public class ClientController {
     private AtracoesRepository atracoesRepository;
 
+    /**
+     * Criamos o nosso repositório com a data
+     */
     public ClientController() throws FileNotFoundException {
-        this.atracoesRepository = new AtracoesRepository();
+        this.atracoesRepository = AtracoesRepository.getInstance();
     }
 
     /**

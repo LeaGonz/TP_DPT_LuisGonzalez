@@ -3,16 +3,20 @@ package Views;
 import Controllers.AdminController;
 import Tools.Tools;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import static java.lang.Thread.sleep;
 
 public class AdminView {
     AdminController adminController;
 
-    public AdminView() {
+    public AdminView() throws FileNotFoundException {
         this.adminController = new AdminController();
     }
 
-    public void adminMenu() {
+    public void adminMenu() throws InterruptedException {
         Scanner input = new Scanner(System.in);
 
         int escolha;
@@ -33,12 +37,12 @@ public class AdminView {
                             %s10-%s Adicionar novo login
                             
                             """,
+                    Tools.color.GREEN, Tools.color.YELLOW,
+                    Tools.color.GREEN, Tools.color.YELLOW,
                     Tools.color.GREEN, Tools.color.RESET,
-                    Tools.color.GREEN, Tools.color.RESET,
-                    Tools.color.GREEN, Tools.color.RESET,
-                    Tools.color.GREEN, Tools.color.RESET,
-                    Tools.color.GREEN, Tools.color.RESET,
-                    Tools.color.GREEN, Tools.color.RESET,
+                    Tools.color.GREEN, Tools.color.YELLOW,
+                    Tools.color.GREEN, Tools.color.YELLOW,
+                    Tools.color.GREEN, Tools.color.YELLOW,
                     Tools.color.GREEN, Tools.color.RESET,
                     Tools.color.GREEN, Tools.color.RESET,
                     Tools.color.GREEN, Tools.color.RESET,
@@ -48,35 +52,39 @@ public class AdminView {
 
             switch (escolha) {
                 case 1:
-                    // FALTA IMPLEMENTAR
+                    totalVendas();
                     break;
-
                 case 2:
-                    // IMPLEMENTAR?
+                    totalLucros();
                     break;
                 case 3:
-                    // IMPLEMENTAR?
+                    System.out.println("\nAqui deveria estar o Consultar o total de vendas e lucro por mês, de forma tabelar,\n mas não estão... 🤖");
+                    sleep(300);
                     break;
                 case 4:
-                    // FALTA IMPLEMENTAR
+                    atracaoMaisProcurada("adulto");
                     break;
                 case 5:
-                    // FALTA IMPLEMENTAR
+                    atracaoMaisProcurada("crianca");
                     break;
                 case 6:
-                    // FALTA IMPLEMENTAR
+                    atracaoMaisProcurada("tudo");
                     break;
                 case 7:
-                    // IMPLEMENTAR?
+                    System.out.println("\nAqui deveria estar o Consultar a atração mais lucrativa (considere o período total),\n mas não estão... 🤖");
+                    sleep(300);
                     break;
                 case 8:
-                    // IMPLEMENTAR?
+                    System.out.println("\nAqui deveria estar o Consultar a atração menos lucrativa (considere o período total),\n mas não estão... 🤖");
+                    sleep(300);
                     break;
                 case 9:
-                    // IMPLEMENTAR?
+                    System.out.println("\nAqui deveria estar o Consultar a atração com melhor preço/tempo. \nApresenta a atração que custa menos por segundo, mas não estão... 🤖");
+                    sleep(300);
                     break;
                 case 10:
-                    // IMPLEMENTAR?
+                    System.out.println("\nAqui deveria estar o Adicionar novo login, mas não estão... 🤖");
+                    sleep(300);
                     break;
                 case 0:
                     System.out.println("\nQue tengas un buen día Administrador... 🔙");
@@ -84,4 +92,106 @@ public class AdminView {
             }
         } while (escolha != 0);
     }
+
+    /**
+     * Mostramos o total de lucros. Vermelho sé foi negativo e amarelo se foi negativo
+     */
+    private void totalLucros() {
+        System.out.println(Tools.color.YELLOW + "\n🎢 Total de Lucro - Parque Temático CESAELand © 🎡\n" + Tools.color.RESET);
+
+        ArrayList<Double> totalVendas = adminController.totalVendas();
+        double total = totalVendas.get(3) - adminController.totalGastos();
+
+        if (total < 0) System.out.println("O total de lucros é: " + Tools.color.RED + String.format("%.2f", total) + Tools.color.RESET);
+        else System.out.println("O total de lucros é: " + Tools.color.YELLOW + String.format("%.2f", total) + Tools.color.RESET);
+    }
+
+    /**
+     * Mostramos dependendo do menu selecionado:
+     * Atração mais procurada por adultos
+     * Atração mais procurada por Crianças
+     * Atração mais procurada
+     *
+     * @param cliente
+     */
+    private void atracaoMaisProcurada(String cliente) throws InterruptedException {
+        String clientType = "";
+        if (cliente.equalsIgnoreCase("adulto")) clientType = " por Adultos";
+        else if (cliente.equalsIgnoreCase("crianca")) clientType = " por Criancas";
+
+        System.out.println(Tools.color.YELLOW + "\n🎢 Atração mais procurada" + clientType + " - Parque Temático CESAELand © 🎡\n" + Tools.color.RESET);
+
+        // Alimentamos a data passando o parâmetro ao metodo do controller
+        ArrayList<String> atracao = adminController.atracaoMaisProcuradaGeral(cliente);
+
+        sleep(200);
+        System.out.printf(Tools.color.GREEN + """
+                        ------------------------------
+                        Nº:                 %s%s%s
+                        Atração:            %s%s%s
+                        Bilhetes vendidos:  %s%s%s
+                        """,
+                Tools.color.RESET, atracao.getFirst(), Tools.color.GREEN,
+                Tools.color.RESET, atracao.get(1), Tools.color.GREEN,
+                Tools.color.RESET, atracao.get(4), Tools.color.GREEN
+        );
+
+        switch (cliente) {
+            case "adulto":
+                System.out.printf("""
+                                Preço Adulto:       %s%s €%s
+                                ------------------------------
+                                """,
+                        Tools.color.RESET, atracao.get(2), Tools.color.GREEN
+                );
+                break;
+            case "crianca":
+                System.out.printf("""
+                                Preço Criança:      %s%s €%s
+                                ------------------------------
+                                """,
+                        Tools.color.RESET, atracao.get(3), Tools.color.GREEN
+                );
+                break;
+            case "tudo":
+                System.out.printf("""
+                                Preço Adulto:       %s%s €%s
+                                Preço Criança:      %s%s €%s
+                                ------------------------------
+                                """,
+                        Tools.color.RESET, atracao.get(2), Tools.color.GREEN,
+                        Tools.color.RESET, atracao.get(3), Tools.color.GREEN
+                );
+                break;
+        }
+        sleep(500);
+    }
+
+    /**
+     * Mostramos o total de bilhetes vendidos, total valor adultos,
+     * total valor crianças e total valor vendido
+     */
+    private void totalVendas() throws InterruptedException {
+        ArrayList<Double> resultadoTotal = adminController.totalVendas();
+
+        System.out.println(Tools.color.YELLOW + "\n🎢 Total de Vendas - Parque Temático CESAELand © 🎡\n" + Tools.color.RESET);
+
+        sleep(200);
+        System.out.printf(Tools.color.GREEN + """
+                        🎫    Total Bilhetes Vendidos:   %s%s%s
+                        👨‍🦰👩‍🦰  Total Bilhetes Adultos:    %s%s €%s
+                        🧒    Total Bilhetes Crianças:   %s%s €%s
+                        
+                            💶 Total de Vendas %s%s € 💶
+                        """,
+                Tools.color.RESET, resultadoTotal.getFirst().intValue(), Tools.color.GREEN,
+                Tools.color.RESET, resultadoTotal.get(1), Tools.color.GREEN,
+                Tools.color.RESET, resultadoTotal.get(2), Tools.color.GREEN,
+                Tools.color.RESET, resultadoTotal.get(3)
+        );
+        sleep(500);
+
+    }
+
+
 }

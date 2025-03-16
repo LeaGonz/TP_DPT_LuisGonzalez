@@ -13,7 +13,7 @@ public class LoginView {
         this.loginController = new LoginController();
     }
 
-    public void loginView() throws FileNotFoundException {
+    public void loginView() throws FileNotFoundException, InterruptedException {
         Scanner input = new Scanner(System.in);
 
         int escolha;
@@ -57,7 +57,12 @@ public class LoginView {
         } while (escolha != 0);
     }
 
-    private void loginValidation(String username, String password) throws FileNotFoundException {
+    /**
+     * Função para aalida as credenciais de login e direciona o utilizador para o menu correspondente
+     * @param username
+     * @param password
+     */
+    private void loginValidation(String username, String password) throws FileNotFoundException, InterruptedException {
         String userType = loginController.loginFunction(username, password);
 
         switch (userType) {
